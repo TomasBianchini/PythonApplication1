@@ -36,5 +36,3 @@ print("Las semillas óptimas para plantar en función del clima y la ubicación 
 print(semilla_optima)
 
 
-
-sdafds

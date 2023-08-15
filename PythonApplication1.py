@@ -61,6 +61,11 @@ model_sem = model.fit(X, y)
 X_train, X_test, y_tain, y_test = train_test_split(X, y, test_size =0.8)
 
 tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
+
+while(tipo_suelo_actual < 1 or tipo_suelo_actual > 8): 
+    print("Debe ingresar un numero entre 1 y 8")
+    tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
+
 temperatura_actual = float(input("Ingrese la temperatura actual: "))
 humedad_actual = float(input("Ingrese la humedad actual: "))
 

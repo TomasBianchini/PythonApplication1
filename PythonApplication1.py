@@ -5,6 +5,7 @@ import mysql.connector
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 
+semillas_optimas = []
 
 def intercambiar_columnas(matriz, col1, col2):
     for fila in matriz:
@@ -38,52 +39,58 @@ data = cursor.fetchall()
 cursor.close()
 conn.close()
 
+
 #Pasamos los datos de tuplas a lista de listas para poder utilizar la libreria sklearn 
 datos = [list(tupla) for tupla in data]
 intercambiar_columnas(datos, 0 , 3)
 
+#tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
+#while(tipo_suelo_actual < 1 or tipo_suelo_actual > 8): 
+#     print("Debe ingresar un numero entre 1 y 8")
+#     tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
 
+#temperatura_actual = float(input("Ingrese la temperatura promedio: "))
+#humedad_actual = float(input("Ingrese la humedad promedio: "))
+tipo_suelo_actual = 1
+temperatura_actual = 32.5
+humedad_actual = 80
 
-# Convertir los datos a un DataFrame de pandas
-df = pd.DataFrame(datos, columns=['tipo_suelo', 'temperatura', 'humedad', 'semilla_optima'])
+for i in range(1, 6):
 
+    # Convertir los datos a un DataFrame de pandas
+    df = pd.DataFrame(datos, columns=['tipo_suelo', 'temperatura', 'humedad', 'semilla_optima'])
 
-# Definir las características (X) y las etiquetas (y)
-X = df[['tipo_suelo', 'temperatura', 'humedad']]
-y = df['semilla_optima']
+    # Definir las características (X) y las etiquetas (y)
+    X = df[['tipo_suelo', 'temperatura', 'humedad']]
+    y = df['semilla_optima']
 
+    # Creamos el modelo de árbol de decisión multietiqueta
+    model = DecisionTreeClassifier()
+    model_sem = model.fit(X, y)
 
-# Creamos el modelo de árbol de decisión multietiqueta
-model = DecisionTreeClassifier()
-model_sem = model.fit(X, y)
+    #Entrenamiento del modelo 
 
+    X_train, X_test, y_tain, y_test = train_test_split(X, y, test_size =0.8)
 
-#Entrenamiento del modelo 
+    # Especifica los nombres de columna para las características en el DataFrame de predicciones
+    X_pred = pd.DataFrame([[tipo_suelo_actual, temperatura_actual, humedad_actual]], columns=['tipo_suelo', 'temperatura', 'humedad'])
 
-X_train, X_test, y_tain, y_test = train_test_split(X, y, test_size =0.8)
+    # Hacer una predicción basada en los valores proporcionados por el usuario
+    semilla_optima = model.predict(X_pred)
+    semillas_optimas.append(semilla_optima)
 
-tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
+    datos_filtrados = [fila for fila in datos if fila[3] != semilla_optima]
 
-while(tipo_suelo_actual < 1 or tipo_suelo_actual > 8): 
-    print("Debe ingresar un numero entre 1 y 8")
-    tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
-
-temperatura_actual = float(input("Ingrese la temperatura actual: "))
-humedad_actual = float(input("Ingrese la humedad actual: "))
-
-# Especifica los nombres de columna para las características en el DataFrame de predicciones
-X_pred = pd.DataFrame([[tipo_suelo_actual, temperatura_actual, humedad_actual]], columns=['tipo_suelo', 'temperatura', 'humedad'])
-
-# Hacer una predicción basada en los valores proporcionados por el usuario
-semilla_optima = model.predict(X_pred)
+    datos = datos_filtrados
 
 # Visualizar el árbol de decisión
-plt.figure(figsize=(20, 10))  # Tamaño de la figura
+plt.figure(figsize=(30, 30))  # Tamaño de la figura
 plot_tree(model_sem, feature_names=['tipo_suelo', 'temperatura', 'humedad'], class_names=df['semilla_optima'].unique().tolist(), filled=True, rounded=True)
 plt.show()
 
 
 # Imprimir la recomendación de la semilla óptima
-print("La semilla óptima para plantar en función del clima y el tipo de suelo es:")
-print(semilla_optima)
+print("Las semillas recomendadas para plantar \nen función del clima y el tipo de suelo son:")
+for semilla in semillas_optimas:
+    print(semilla[0])
 

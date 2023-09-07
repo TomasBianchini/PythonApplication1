@@ -2,6 +2,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection  import train_test_split
 import pandas as pd
 import mysql.connector
+from sklearn.tree import plot_tree
+import matplotlib.pyplot as plt
 
 
 def intercambiar_columnas(matriz, col1, col2):
@@ -75,8 +77,13 @@ X_pred = pd.DataFrame([[tipo_suelo_actual, temperatura_actual, humedad_actual]],
 # Hacer una predicción basada en los valores proporcionados por el usuario
 semilla_optima = model.predict(X_pred)
 
+# Visualizar el árbol de decisión
+plt.figure(figsize=(20, 10))  # Tamaño de la figura
+plot_tree(model_sem, feature_names=['tipo_suelo', 'temperatura', 'humedad'], class_names=df['semilla_optima'].unique().tolist(), filled=True, rounded=True)
+plt.show()
+
+
 # Imprimir la recomendación de la semilla óptima
 print("La semilla óptima para plantar en función del clima y el tipo de suelo es:")
 print(semilla_optima)
-
 

@@ -52,12 +52,12 @@ intercambiar_columnas(datos, 0 , 3)
 #temperatura_actual = float(input("Ingrese la temperatura promedio: "))
 #humedad_actual = float(input("Ingrese la humedad promedio: "))
 tipo_suelo_actual = 1
-temperatura_actual = 32.5
+temperatura_actual = 25
 humedad_actual = 80
 
 
 
-datos = datos[-10:]
+datos = datos[-5:]
 
 # Convertir los datos a un DataFrame de pandas
 

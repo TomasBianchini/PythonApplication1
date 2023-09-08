@@ -44,18 +44,16 @@ conn.close()
 datos = [list(tupla) for tupla in data]
 intercambiar_columnas(datos, 0 , 3)
 
-#tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
-#while(tipo_suelo_actual < 1 or tipo_suelo_actual > 8): 
-#     print("Debe ingresar un numero entre 1 y 8")
-#     tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
+tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
+while(tipo_suelo_actual < 1 or tipo_suelo_actual > 8): 
+#    print("Debe ingresar un numero entre 1 y 8")
+     tipo_suelo_actual = int(input("Ingrese el tipo de suelo del cultivo:\n1-Alfidoles\n2-Aridisoles\n3-Entisoles\n4-Histosoles\n5-Molisoles\n6-Vertisoles\n7-Ultisoles\n8-Inceptisoles\n "))
 
-#temperatura_actual = float(input("Ingrese la temperatura promedio: "))
-#humedad_actual = float(input("Ingrese la humedad promedio: "))
-tipo_suelo_actual = 1
-temperatura_actual = 32.5
-humedad_actual = 80
+temperatura_actual = float(input("Ingrese la temperatura promedio: "))
+humedad_actual = float(input("Ingrese la humedad promedio: "))
 
-for i in range(1, 6):
+
+for i in range(1, 5):
 
     # Convertir los datos a un DataFrame de pandas
     df = pd.DataFrame(datos, columns=['tipo_suelo', 'temperatura', 'humedad', 'semilla_optima'])
@@ -84,9 +82,9 @@ for i in range(1, 6):
     datos = datos_filtrados
 
 # Visualizar el árbol de decisión
-plt.figure(figsize=(30, 30))  # Tamaño de la figura
-plot_tree(model_sem, feature_names=['tipo_suelo', 'temperatura', 'humedad'], class_names=df['semilla_optima'].unique().tolist(), filled=True, rounded=True)
-plt.show()
+#plt.figure(figsize=(30, 30))  # Tamaño de la figura
+#plot_tree(model_sem, feature_names=['tipo_suelo', 'temperatura', 'humedad'], class_names=df['semilla_optima'].unique().tolist(), filled=True, rounded=True)
+#plt.show()
 
 
 # Imprimir la recomendación de la semilla óptima
